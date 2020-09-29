@@ -1,24 +1,42 @@
 class UsersController < ApplicationController
 
-    before_action :find_user, only: [:show, :update]
+
+    def show
+          user_id = params[:id]
+          user = User.find(user_id)
+        #   render json: UserSerializer.new(user)
+        playlists_array = []
+        videos_array = []
+        notes_array = []
+        user.playlists.each do |playlist|
+          playlistObj = { 'id' => playlist.id, 'name' => playlist.name}
+            playlist.videos.each do |video|
+              video_obj = { 'id' => video.id, 'name' => video.name}
+              videos_array << video_obj
+            #   playlistObj['videos'] << video_obj
+              if video.notes.length > 0
+              notes_array << video.notes
+              end
+            end
+            playlists_array << playlistObj
+        end
+          render json: {user: user, playlist: playlists_array, notes: notes_array, videos: videos_array}
+    end
 
     def index
         users = User.all
-        render json: users, except: [:created_at, :updated_at]
-    end
-    
-    def show
-        render json: user, except: [:created_at, :updated_at]
+        render json: users
     end
     
     def create
         user = User.create!(user_params)
-        render json: user, except: [:created_at, :updated_at] 
+        render json: user
     end
     
     def update
+        user = User.find(params[:id])
         user.update!(user_params)
-        render json: user, except: [:created_at, :updated_at]
+        render json: user
     end
     
     private
@@ -32,3 +50,23 @@ class UsersController < ApplicationController
     end
     
 end
+
+
+# def show
+#     user_id = params[:id]
+#     user = User.find(user_id)
+#   #   render json: UserSerializer.new(user)
+#   playlists_array = []
+#   videos_array = []
+#   notes_array = []
+#   user.playlists.each do |playlist|
+#     playlistObj = { 'id' => playlist.id, 'name' => playlist.name, 'videos' => []}
+#       playlist.videos.each do |video|
+#         video_obj = { 'id' => video.id, 'name' => video.name, 'notes' => video.notes }
+#         playlistObj['videos'] << video_obj
+#       end
+#       playlists_array << playlistObj
+#   end
+#     render json: {user: user, playlist: playlists_array}
+  
+# end

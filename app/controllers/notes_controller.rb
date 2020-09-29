@@ -1,24 +1,25 @@
 class NotesController < ApplicationController
     
-    before_action :find_note, only: [:show]
+
     def index
         notes = Note.all
-        render json: notes, except: [:created_at, :updated_at]
+        render json: notes
     end
     
     def show
-        render json: note, except: [:created_at, :updated_at]
+        note = Note.find(params[:id])
+        render json: note
     end
     
     def create
         note = Note.create!(note_params)
-        render json: note, except: [:created_at, :updated_at]
+        render json: note
     end
     
     def update
         note = Note.find(params[:id])
         note.update!(note_params)
-        render json: note, except: [:created_at, :updated_at]
+        render json: note
     end
 
     def destroy

@@ -7,6 +7,7 @@
 - http://localhost:3000/playslists
 - http://localhost:3000/videos
 - http://localhost:3000/notes
+- http://localhost:3000/users/1/playlists
 
 
 # Frontend

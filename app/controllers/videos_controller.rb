@@ -1,24 +1,31 @@
 class VideosController < ApplicationController
     
-    before_action :find_video, only: [:show]
+    # before_action :find_video
+
+    def notes
+        video = Video.find(params(:id))
+        render json: video.notes
+    end
+
     def index
         videos = Video.all
-        render json: videos, except: [:created_at, :updated_at]
+        render json: videos
     end
     
     def show
-        render json: video, except: [:created_at, :updated_at]
+        video = Video.find(params[:id])
+        render json: video
     end
     
     def create
         video = Video.create!(video_params)
-        render json: video, except: [:created_at, :updated_at]
+        render json: video
     end
     
     def update
         video = Video.find(params[:id])
         video.update!(video_params)
-        render json: video, except: [:created_at, :updated_at]
+        render json: video
     end
 
     def destroy

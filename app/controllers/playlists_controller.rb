@@ -1,24 +1,30 @@
 class PlaylistsController < ApplicationController
     
-    before_action :find_playlist, only: [:show]
+
+    def videos
+        playlist = Playlist.find(params(:id))
+        render json: playlist.videos
+    end
+
     def index
         playlists = Playlist.all
-        render json: playlists, except: [:created_at, :updated_at]
+        render json: playlists
     end
     
     def show
-        render json: playlist, except: [:created_at, :updated_at]
+        playlist = Playlist.find(params[:id])
+        render json: playlist
     end
     
     def create
         playlist = Playlist.create!(playlist_params)
-        render json: playlist, except: [:created_at, :updated_at]
+        render json: playlist
     end
     
     def update
         playlist = Playlist.find(params[:id])
         playlist.update!(playlist_params)
-        render json: playlist, except: [:created_at, :updated_at]
+        render json: playlist
     end
 
     def destroy
