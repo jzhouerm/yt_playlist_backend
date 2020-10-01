@@ -11,7 +11,7 @@ class UsersController < ApplicationController
         user.playlists.each do |playlist|
           playlistObj = { 'id' => playlist.id, 'user_id' => playlist.user_id, 'name' => playlist.name}
             playlist.videos.each do |video|
-              video_obj = { 'id' => video.id, 'url' => video.url, 'name' => video.name}
+              video_obj = { 'id' => video.id, 'playlist_id' => video.playlist_id,'url' => video.url, 'name' => video.name}
               videos_array << video_obj
             #   playlistObj['videos'] << video_obj
 
